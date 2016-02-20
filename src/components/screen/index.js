@@ -16,15 +16,17 @@ const ScreenStore = (state = 'SHOW_ALL', action) => {
 class Screen extends Component {
 
   firstRender=true;
+  events={
+    'after:render': () => {
+      if(this.firstRender){
+        this.firstRender = false;
+        this.renderScene(el)
+      }
+    }
+  };
 
   constructor(data, el) {
     super(_template, createStore(ScreenStore), el);
-    this.on('after:render', ()=>{
-      if(this.firstRender){
-        this.firstRender = false;
-        this.renderScene(el);
-      }
-    });
   }
 
   renderScene(el) {
