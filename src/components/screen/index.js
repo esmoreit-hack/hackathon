@@ -1,8 +1,8 @@
 import { createStore, combineReducers } from 'redux';
-import { Component } from './../../libs/';
+import { Component, Map } from './../../libs/';
 import _template from './index.html';
 import THREE from 'three';
-import map from './../../dist/map.json';
+
 
 const ScreenStore = (state = 'SHOW_ALL', action) => {
   switch (action.type) {
@@ -16,17 +16,15 @@ const ScreenStore = (state = 'SHOW_ALL', action) => {
 class Screen extends Component {
 
   firstRender=true;
-  events={
-    'after:render': () => {
+
+  constructor(data, el) {
+    super(_template, createStore(ScreenStore), el);
+    this.on('after:render', () => {
       if(this.firstRender){
         this.firstRender = false;
         this.renderScene(this.el);
       }
-    }
-  };
-
-  constructor(data, el) {
-    super(_template, createStore(ScreenStore), el);
+    });
   }
 
   renderScene(el) {
@@ -40,6 +38,8 @@ class Screen extends Component {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     el.appendChild(this.renderer.domElement);
     window.addEventListener('resize', () => {this.onWindowResize();}, false);
+    console.log(Map);
+    this.map = new Map();
     this.animate();
   }
 
