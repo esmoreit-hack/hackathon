@@ -1,3 +1,6 @@
+require('babel-register')({
+        "presets": ["es2015"]
+});
 const incDom = require('incremental-dom');
 const redux = require('redux');
 const fs = require('fs');
@@ -19,7 +22,7 @@ server.register(require('inert'), (err) => {
     server.route({
         method: 'GET',
         path: '/',
-        handler:  function (request, reply) {
+        handler: (request, reply) => {
           fs.readFile(`${__dirname}/../index.html`, 'utf8', (err, data) => {
             if (err) throw err;
             console.log(data);
