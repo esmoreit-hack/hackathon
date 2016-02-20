@@ -20,7 +20,7 @@ class Screen extends Component {
     'after:render': () => {
       if(this.firstRender){
         this.firstRender = false;
-        this.renderScene(el)
+        this.renderScene(this.el);
       }
     }
   };
