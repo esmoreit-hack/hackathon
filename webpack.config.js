@@ -38,12 +38,12 @@ module.exports = {
   entry: {
     // Set up an ES6-ish environment
     client: './src/client/index',
-    server: './src/server/index'
+    vendor: ["incremental-dom", "zepto-modules/zepto", "zepto-modules/event", "redux"]
   },
   output: {
     path: path.join(__dirname, 'dist'),
     publicPath: '/',
-    filename: '[name].bundle.js'
+    filename: 'js/[name].bundle.js'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -52,7 +52,8 @@ module.exports = {
       include: /\.min\.js$/,
       minimize: true,
       comments: false
-    })
+    }),
+    new webpack.optimize.CommonsChunkPlugin(/* chunkName= */"vendor", /* filename= */"js/vendor.bundle.js")
   ],
   module: {
     loaders: [{

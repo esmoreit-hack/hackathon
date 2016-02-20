@@ -4,6 +4,7 @@
   "description": "MangiaFire framework",
   "main": "index.js",
   "scripts": {
+    "server": "npm run deploy && node ./src/server",
     "server-wp": "node_modules/.bin/webpack-dev-server  --host 0.0.0.0 --port 8081 --config webpack.config.js --progress --colors",
     "deploy": "node_modules/.bin/webpack -p --config webpack.config.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +15,10 @@
     "Babel 6",
     "Webpack"
   ],
-  "author": "Mauro Mandracchia (http://www.ideabile.com)",
+  "contributors": [
+    { "name": "Mauro Mandracchia", "email": "info@ideabile.com", "url": "http://www.ideabile.com" },
+    { "name": "Massimiliano Scifo", "email": "massimiliano.scifo@gmail.com" }
+  ],
   "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.4.5",
@@ -39,6 +43,7 @@
     "hapi": "^13.0.0",
     "html2hscript": "^1.2.2",
     "incremental-dom": "^0.3.0",
+    "inert": "^3.2.0",
     "raw-loader": "^0.5.1",
     "redux": "^3.0.5",
     "sizzle": "^2.3.0",
