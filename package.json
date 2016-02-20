@@ -66,6 +66,7 @@
     "joi": "^8.0.2",
     "json-loader": "^0.5.4",
     "mongoose": "^4.4.4",
+    "mongoose-lifecycle": "^1.0.0",
     "node-sass": "^3.4.2",
     "pm2": "^1.0.1",
     "raw-loader": "^0.5.1",
