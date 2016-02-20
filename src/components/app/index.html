@@ -1,53 +1,23 @@
 <div>
-  <GameMap></GameMap>
+
+  <GameScreen>
+    <script>
+      var ScreenComponent = require('./../screen');
+      console.log(this._component);
+      this._component = this._component || new ScreenComponent.Screen({}, document.getElementsByTagName('gameScreen')[0]);
+    </script>
+  </GameScreen>
+
   <div class="user-menu">
     <div class="profile-card">
-      <img src="" />
       <span class="user-name">Esmoreit</span>
     </div>
-    <ul class="unit-list">
-      <li><span class="unit-name">Unit name</span><ul class="unit-props">
-        <li>Prop 1</li>
-        <li>Prop n..</li>
-        <li>Prop n..</li>
-      </ul></li>
-      <li><span class="unit-name">Unit name</span><ul class="unit-props">
-        <li>Prop 1</li>
-        <li>Prop n..</li>
-        <li>Prop n..</li>
-      </ul></li>
-      <li><span class="unit-name">Unit name</span><ul class="unit-props">
-        <li>Prop 1</li>
-        <li>Prop n..</li>
-        <li>Prop n..</li>
-      </ul></li>
-      <li><span class="unit-name">Unit name</span><ul class="unit-props">
-        <li>Prop 1</li>
-        <li>Prop n..</li>
-        <li>Prop n..</li>
-      </ul></li>
-      <li><span class="unit-name">Unit name</span><ul class="unit-props">
-        <li>Prop 1</li>
-        <li>Prop n..</li>
-        <li>Prop n..</li>
-      </ul></li>
-      <li><span class="unit-name">Unit name</span><ul class="unit-props">
-        <li>Prop 1</li>
-        <li>Prop n..</li>
-        <li>Prop n..</li>
-      </ul></li>
-      <li><span class="unit-name">Unit name</span><ul class="unit-props">
-        <li>Prop 1</li>
-        <li>Prop n..</li>
-        <li>Prop n..</li>
-      </ul></li>
+    <ul class="list-unit">
+      <li>
+        <ul class="unit-desc">
+          <li></li>
+        </ul>
+      </li>
     </ul>
-    <ul class="planet-list"></ul>
-    <ul class="current-view-list"></ul>
   </div>
-  <ul class="user-menu">
-    <li>
-
-    </li>
-  </ul>
 </div>
