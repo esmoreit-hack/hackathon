@@ -2,6 +2,8 @@ import { createStore, combineReducers } from 'redux';
 import { Component } from './../../libs/';
 import _template from './index.html';
 
+console.log(Component);
+
 const AppStore = (state = 'SHOW_ALL', action ) => {
   switch (action.type) {
     case 'ACTION':
@@ -9,10 +11,14 @@ const AppStore = (state = 'SHOW_ALL', action ) => {
     default:
         return state;
   }
-}
+};
 
-export default class App extends Component {
+class App extends Component {
   constructor(data, el){
-    super(data, createStore(AppStore), el||document.body);
+    super(_template, createStore(AppStore), el||document.body);
   }
+};
+
+export {
+  App
 };
