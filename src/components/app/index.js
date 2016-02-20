@@ -1,6 +1,7 @@
 import { createStore, combineReducers } from 'redux';
 import { Component } from './../../libs/';
 import _template from './index.html';
+require('./models/three.projector.js');
 
 const AppStore = (state = 'SHOW_ALL', action ) => {
   switch (action.type) {
@@ -14,6 +15,7 @@ const AppStore = (state = 'SHOW_ALL', action ) => {
 class App extends Component {
   constructor(data, el){
     super(_template, createStore(AppStore), el||document.body);
+    this.store.dispatch({map: '', type: 'ADD_MAP'});
   }
 };
 

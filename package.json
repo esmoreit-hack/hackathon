@@ -71,6 +71,8 @@
     "starplate": "0.0.25",
     "style-loader": "^0.13.0",
     "superviews.js": "0.0.8",
+    "three": "^0.74.0",
+    "three.js": "^0.73.2",
     "todomvc-app-css": "^2.0.4",
     "todomvc-common": "^1.0.2",
     "url-loader": "^0.5.7",

@@ -5,3 +5,10 @@ body{
 div.something{
   color: blue;
 }
+
+.user-menu{
+  position: fixed;
+  right: 0;
+  background: rgba(255,255,255,0.4);
+  width: 15%;
+}
