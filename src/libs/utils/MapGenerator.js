@@ -28,7 +28,7 @@ class MapGenerator{
   validatePlanetConstellation(constellation, planet){
     let _pp = planet;
     for(let i = 0; i < constellation.length; i++){
-      let _p = constellation[i];
+      let _p = constellation[i].position;
       if((_p[0] === _pp[0]) && (_p[1] === _pp[1]) && (_p[2] === _pp[2]) ){
         return false;
       }

@@ -2,7 +2,7 @@ import { createStore, combineReducers } from 'redux';
 import { Component } from './../../libs/';
 import _template from './index.html';
 import THREE from 'three';
-
+import map from './../../dist/map.json';
 
 const ScreenStore = (state = 'SHOW_ALL', action) => {
   switch (action.type) {
@@ -20,7 +20,7 @@ class Screen extends Component {
     'after:render': () => {
       if(this.firstRender){
         this.firstRender = false;
-        this.renderScene(el)
+        this.renderScene(this.el);
       }
     }
   };
