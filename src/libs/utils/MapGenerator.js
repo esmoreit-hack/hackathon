@@ -59,7 +59,7 @@ class MapGenerator{
     for(let i=0; i<max; i++){
       res.push(this.getPlanet(res));
     }
-    return { planets: res };
+    return { constellation: res };
   }
 
   getGalaxie(cubeNumber, minPlanets, maxPlanets){
@@ -68,7 +68,7 @@ class MapGenerator{
     for(let i=0; i<cubeNumber; i++){
       res.push(this.getConstellation( minPlanets, maxPlanets ));
     }
-    return { constellations: res };
+    return { galaxy: res };
   }
 
   getGame(cubeNumber, minPlanets, maxPlanets){
@@ -81,7 +81,7 @@ class MapGenerator{
     for(let i=0; i<cubeNumber; i++){
       res.push(this.getGalaxie(cubeNumber, minPlanets, maxPlanets));
     }
-    return { galaxies: res };
+    return { universe: res };
   }
 
 };
