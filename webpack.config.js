@@ -1,9 +1,8 @@
 var path = require('path');
 var webpack = require('webpack');
-var path = require('path');
-
-var through = require('through2')
-var superviews = require('superviews.js')
+var through = require('through2');
+var superviews = require('superviews.js');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var header = 'var IncrementalDOM = require(\'incremental-dom\')\n' +
 'var patch = IncrementalDOM.patch\n' +
 'var elementOpen = IncrementalDOM.elementOpen\n' +
@@ -33,7 +32,8 @@ var __template_loader = function (file, options) {
 };
 
 
-module.exports = {
+module.exports = [{
+  name: 'js',
   devtool: 'cheap-module-eval-source-map',
   entry: {
     // Set up an ES6-ish environment
@@ -77,4 +77,27 @@ module.exports = {
     },
     { test: /\.json$/, loader: 'json' }]
   }
-};
+},
+{
+  name: 'css',
+  entry: [
+     './src/style/main.scss'
+  ],
+  output: {
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/',
+    filename: 'js/style.js'
+  },
+  module: {
+    loaders: [
+              { test: /\.(woff2?|svg)$/, loader: 'url?limit=10000' },
+              { test: /\.(ttf|eot)$/, loader: 'file' },
+              {
+                test: /\.scss$/,
+                loaders: ["style", "css?sourceMap", "resolve-url?sourceMap", "sass?sourceMap"]
+              }]
+  },
+  sassLoader: {
+    includePaths: [path.resolve(__dirname, "./src/style")]
+  }
+}];
