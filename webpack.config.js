@@ -72,8 +72,9 @@ module.exports = {
     },
     {
       test: /\.html$/,
-      loader: `${__dirname}/src/libs/TemplateLoader!superviews.js`,
+      loader: `${__dirname}/src/libs/utils/TemplateLoader!superviews.js`,
       exclude: /node_modules/
-    }]
+    },
+    { test: /\.json$/, loader: 'json' }]
   }
 };

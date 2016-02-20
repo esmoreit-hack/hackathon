@@ -1,5 +1,7 @@
-import Component from './Component';
+import Component from './base/Component';
+import Events from './base/Events';
 
-export App {
-  Component
+export {
+  Component,
+  Events
 };

@@ -1,5 +1,6 @@
-require('incremental-dom');
-require('redux');
+const incDom = require('incremental-dom');
+const redux = require('redux');
+const fs = require('fs');
 const Path = require('path');
 const Hapi = require('hapi');
 
@@ -14,16 +15,27 @@ server.register(require('inert'), (err) => {
 
     server.route({
         method: 'GET',
+        path: '/',
+        handler:  function (request, reply) {
+          fs.readFile(`${__dirname}/../index.html`, 'utf8', (err, data) => {
+            if (err) throw err;
+            console.log(data);
+            reply(data);
+          });
+        }
+    });
+
+    server.route({
+        method: 'GET',
         path: '/{param*}',
         handler: {
             directory: {
-                path: 'public'
+                path: 'dist'
             }
         }
     });
 
     server.start((err) => {
-
         if (err) {
             throw err;
         }

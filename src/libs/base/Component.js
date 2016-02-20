@@ -1,7 +1,7 @@
 import { createStore } from 'redux';
 import { patch } from 'incremental-dom';
 import $ from 'zepto-modules/zepto';
-import Events from './decorators/Events';
+import Events from './Events';
 
 require('zepto-modules/event');
 
