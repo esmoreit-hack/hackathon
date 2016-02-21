@@ -16,7 +16,8 @@ const InstanceSchema = new Schema({
 	freeGalaxies : { type : 'array' , "items": { "type": Number} },
 	teamRed : { "type": "array" , "items": { "type": ObjectId, "ref" : 'User' }, default : [] },
 	teamBlu : { "type": "array" , "items": { "type": ObjectId, "ref" : 'User' }, default : [] },
-	teamGray : {"type": "array" , "items": { "type": ObjectId, "ref" : 'User' }, default : []}
+	teamGray : {"type": "array" , "items": { "type": ObjectId, "ref" : 'User' }, default : []},
+	gameData : {"type": "array" , "items": { "type": ObjectId, "ref" : 'TurnHash' }, default : []}
 });
 
 InstanceSchema.plugin(require('mongoose-lifecycle'));

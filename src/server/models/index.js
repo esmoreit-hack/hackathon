@@ -6,6 +6,7 @@ import {Army} from './army';
 import {Instance} from './instance';
 import {Resource} from './resource';
 import {Figure} from './figure';
+import {GameData} from './gameData';
 
 export {
 	User,
@@ -15,5 +16,6 @@ export {
 	Army,
 	Instance,
 	Resource,
-	Figure
+	Figure,
+	GameData
 };
