@@ -7,7 +7,11 @@ class CrudController {
     };
 
     getAll(request, reply){
-        this.model.find({}, (err, user) => {
+        var query = {};
+
+        if(request.query)
+            query = request.query;
+        this.model.find(query).exec((err, user) => {
             if (!err) {
                 reply(user);
             } else {
@@ -45,16 +49,24 @@ class CrudController {
     update(request, reply){
         this.model.findOne({
             '_id': request.params._id
-        }, (err, user) => {
+        } , (err, user) => {
             if (!err) {
-                //TODO Update fields
+
+                for(var p  in request.payload) {
+                    for(var k in user){
+                        if(k === p){
+                            user[k] = request.payload[p];
+                        }
+                    }
+                }
+
                 user.save(function(err, user) {
                     if (!err) {
-                        reply(user).updated('/user/' + user._id); // HTTP 201
+                        reply(user); // HTTP 201
                     } else {
                         if (11000 === err.code || 11001 === err.code) {
                             reply(Boom.forbidden("please provide another user id, it already exist"));
-                        } else reply(Boom.forbidden(getErrorMessageFrom(err))); // HTTP 403
+                        } else reply((err)); // HTTP 403
                     }
                 });
             } else {
@@ -64,12 +76,10 @@ class CrudController {
     };
 
     remove(request, reply){
-        console.log('cao');
         this.model.findOne({
             '_id': request.params._id
         }, (err, removed) => {
             if (!err && removed) {
-                console.log(removed);
                 removed.remove();
                 reply({
                     message: this.model+" deleted successfully"
