@@ -53,6 +53,10 @@ class Screen extends Component {
       this.addCube(unit, cube[0], cube[1], cube[2]);
     });
 
+    this.windowHalfY = window.innerHeight/2;
+    this.windowHalfX = window.innerWidth/2;
+
+
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
@@ -79,14 +83,14 @@ class Screen extends Component {
     let mouseY = (event.clientY - this.windowHalfY);
 		this.camera.position.x += ( mouseX - this.camera.position.x ) * 0.05;
 		this.camera.position.y += ( - mouseY - this.camera.position.y ) * 0.05;
-    console.log(mouseY, mouseX);
+    console.log(event.clientX);
 		this.camera.lookAt( this.scene.position );
     this.renderer.render(this.scene, this.camera);
   }
 
   onWindowResize() {
-    this.windowHalfY = this.innerHeight/2;
-    this.windowHalfX = this.innerWidth/2;
+    this.windowHalfY =  window.innerHeight/2;
+    this.windowHalfX = window.innerWidth/2;
     this.camera.aspect = window.innerWidth / window.innerHeight;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
