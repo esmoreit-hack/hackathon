@@ -8,8 +8,13 @@ const EmpireSchema = new Schema({
     army : { "type": "array" , "items": { "type": ObjectId, "ref" : 'Army'}}
 });
 
-const Empire = Mongoose.model('empire', EmpireSchema);
+EmpireSchema.plugin(require('mongoose-lifecycle'));
 
+EmpireSchema.methods.foo = () => {
+	return 'foo';
+}
+
+const Empire = Mongoose.model('empire', EmpireSchema);
 export {
 	Empire
 };

@@ -27,32 +27,82 @@ class MapGenerator{
     });
   }
 
-  getRandomCubePosition(callback){
-    var c = ()=> { return Math.round(Math.random()); };
-    let x = c() ? (-1*c())  : c();
-    let y = c() ? (-1*c()) : c();
-    let z = c() ? (-1*c()) : c();
-
-    if(x === -0)
-      x = Math.abs(x);
-    if(y === -0)
-      y = Math.abs(y);
-    if(z === -0)
-      z = Math.abs(z);
-
-    if(callback)
-      callback([x,y,z]);
+  getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
   }
 
-  getPlanet(galaxy){
+  getRandomCubePosition(callback){
+    function cartesian() {
+    var r = [], arg = arguments, max = arg.length-1;
+        function helper(arr, i) {
+            for (var j=0, l=arg[i].length; j<l; j++) {
+                var a = arr.slice(0); // clone arr
+                a.push(arg[i][j]);
+                if (i==max)
+                    r.push(a);
+                else
+                    helper(a, i+1);
+            }
+        }
+        helper([], 0);
+        return r;
+    }
+
+
+    let y = cartesian([0], [1], [2]);
+
+    console.log('random cubelv2', y);
+    if(callback)
+      callback([y]);
+  }
+
+  getGalaxy(moltiplier){
+    function cartesian() {
+      var r = [], arg = arguments, max = arg.length-1;
+      function helper(arr, i) {
+        for (var j=0, l=arg[i].length; j<l; j++) {
+          var a = arr.slice(0);
+          a.push(arg[i][j]);
+          if (i==max)
+            r.push(a);
+          else
+            helper(a, i+1);
+        }
+      }
+      helper([], 0);
+      return r;
+    }
+    const first = moltiplier;
+    const second = 1 + moltiplier;
+    const thrid = -1 - moltiplier;
+    let cubelv2 = cartesian([first, second, thrid], [thrid, first, second], [second, thrid, first]);
+
+    Array.prototype.getRandom= function(num, cut){
+
+      var A= cut? this:this.slice(0);
+
+      A.sort(function(){
+          return .5-Math.random();
+      });
+      return A.splice(0, num);
+    };
+
+    let planets = cubelv2.getRandom(7);
+
+
+    return { planets: planets };
+  }
+
+  getPlanet(){
     let planet = {};
+    let calculate = {};
 
-    this.getRandomCubePosition((vector3) => {
-
+    this.getRandomCubePosition( calculate = (vector3) => {
+      console.log(vector3);
       if(spacesFilled.length > 0) {
         spacesFilled.forEach((Unit) => {
           if (Unit[0] === vector3[0] && Unit[1] === vector3[1] && Unit[2] === vector3[2]) {
-            return this.getRandomCubePosition();
+            calculate();
           } else {
             spacesFilled.push(vector3);
             planet = { position: vector3 };
@@ -64,35 +114,23 @@ class MapGenerator{
       }
     })
 
-    return planet;
-  }
-
-  getGalaxy(minPlanets, maxPlanets){
-    maxPlanets = maxPlanets ;
-    let planets = [];
-
-    spacesFilled = [];
-    for(let i=0; i<maxPlanets; i++){
-      planets.push(this.getPlanet());
-    }
-
-    return { planets: planets };
+    return (planet) ? planet : calculate();
   }
 
   getGalaxie(cubeNumber, minPlanets, maxPlanets){
     let galaxies = [];
 
     for(let i=0; i<cubeNumber; i++){
-      galaxies.push(this.getGalaxy( minPlanets, maxPlanets ));
+      galaxies.push([ i , this.getGalaxy(i)]);
     }
 
-    return { galaxies: galaxies };
+    return { galaxies: galaxies};
   }
 
   getGame(){
     let cubeNumber = 27;
-    let minPlanets = 7;
-    let maxPlanets = 7;
+    let minPlanets = 5;
+    let maxPlanets = 5;
 
     cubeNumber = cubeNumber || 27;
     for(let i=0; i<cubeNumber; i++){
