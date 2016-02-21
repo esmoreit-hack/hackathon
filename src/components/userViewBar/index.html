@@ -1,0 +1,29 @@
+<div>
+  <script>
+    var rand = Math.ceil(Math.random()*1000);
+    var url = 'https://api.adorable.io/avatars/285/'+new String(rand)+'@adorable.io.png';
+  </script>
+  <div class="user-card">
+    <div class="avatar">
+      <img src="{url}" />
+    </div>
+    <ul class="summary">
+      <li><span class="desc-user">User:</span><span class="val-user">#a123120a</span></li>
+      <li><span class="desc-unit">Unit:</span><span class="val-unit">000</span></li>
+      <li><span class="desc-planet">Planets:</span><span class="val-planet">123</span></li>
+    </ul>
+  </div>
+  <ul class="views">
+    <li>Planets</li>
+    <li>Galaxy</li>
+    <li>Unities</li>
+  </ul>
+  <ul class="current-view current-view--planets">
+    <li>
+      <h2>Title</h2>
+      <div class="avatar">
+        <img src="{url}" />
+      </div>
+    </li>
+  </ul>
+</div>

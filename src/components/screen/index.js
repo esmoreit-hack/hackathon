@@ -100,7 +100,7 @@ class Screen extends Component {
       this.animate();
     });
 
-    this.group.rotation.y -= 0.005;
+    this.group.rotation.y -= 0.0005;
     this.renderer.render(this.scene, this.camera);
   }
 }
