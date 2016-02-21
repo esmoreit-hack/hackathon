@@ -6,7 +6,8 @@ class Map {
     this.unit = unit || 10000;
     this.grid = [];
     this.map = map;
-    this.setGridView(0);
+    // this.setGridView(0);
+    this.createGrid();
   }
 
   setGridView(galaxy, constellation){
@@ -19,14 +20,30 @@ class Map {
       univers.galaxies.forEach((_galaxy, _index) =>{
         if(index !== constellation) return false;
         _galaxy[1].galaxy.forEach((_slot, __index) =>{
-          _slot[0] = _slot[0] > 0 ? ( _slot[0] + (item * this.unit)) : ( _slot[0] - (item * this.unit));
-          _slot[1] = _slot[1] > 0 ? ( _slot[1] + (item * this.unit)) : ( _slot[1] - (item * this.unit));
-          _slot[2] = _slot[2] > 0 ? ( _slot[2] + (item * this.unit)) : ( _slot[2] - (item * this.unit));
+          _slot[0] = _slot[0] > 0 ? _slot[0] + ( _slot[0] * this.unit + item ) : _slot[0] - ( _slot[0] * this.unit + item );
+          _slot[1] = _slot[1] > 0 ? _slot[1] + ( _slot[1] * this.unit + item ) : _slot[1] - ( _slot[1] * this.unit + item );
+          _slot[2] = _slot[2] > 0 ? _slot[2] + ( _slot[2] * this.unit + item ) : _slot[2] - ( _slot[2] * this.unit + item );
           this.grid.push([_slot[0], _slot[1], _slot[2]]);
           item++;
         });
       });
     });
+  }
+
+  createGrid(){
+    var xCount = 3,
+        yCount = 3,
+        zCount = 3,
+        size = this.unit,
+        spacing = this.unit;
+
+      for (let x=0; x<3; x+=1) {
+        for (let y=0; y<3; y+=1) {
+          for (let z=0; z<3; z+=1) {
+            this.grid.push([(x-xCount/2) * spacing, (y-yCount/2) * spacing, (z-zCount/2) * spacing]);
+          }
+        }
+      }
   }
 
   createGridUnit(x, y, z){

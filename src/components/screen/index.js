@@ -41,7 +41,7 @@ class Screen extends Component {
   }
 
   renderScene(el) {
-    let unit = 50;
+    let unit = 100;
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
     this.camera.position.z = 500;
     this.scene = new THREE.Scene();
