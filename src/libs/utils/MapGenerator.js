@@ -52,7 +52,7 @@ class MapGenerator{
       if(spacesFilled.length > 0) {
         spacesFilled.forEach((Unit) => {
           if (Unit[0] === vector3[0] && Unit[1] === vector3[1] && Unit[2] === vector3[2]) {
-            return this.getRandomCubePosition();
+            this.getRandomCubePosition();
           } else {
             spacesFilled.push(vector3);
             planet = { position: vector3 };
@@ -64,7 +64,7 @@ class MapGenerator{
       }
     })
 
-    return planet;
+    return (planet) ? planet : this.getPlanet(galaxy);
   }
 
   getGalaxy(minPlanets, maxPlanets){

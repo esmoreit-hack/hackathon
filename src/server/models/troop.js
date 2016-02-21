@@ -13,8 +13,9 @@ const TroopSchema = new Schema({
     movingTo : { type : ObjectId , ref : 'Planet' }
 });
 
-const Troop = Mongoose.model('troop', TroopSchema);
+TroopSchema.plugin(require('mongoose-lifecycle'));
 
+const Troop = Mongoose.model('troop', TroopSchema);
 export {
 	Troop
 };

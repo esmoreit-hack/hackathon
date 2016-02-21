@@ -10,8 +10,9 @@ const UserSchema = new Schema({
 
 });
 
-const User = Mongoose.model('user', UserSchema);
+UserSchema.plugin(require('mongoose-lifecycle'));
 
+const User = Mongoose.model('user', UserSchema);
 export {
     User
 };
