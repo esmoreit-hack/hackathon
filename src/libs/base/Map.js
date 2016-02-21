@@ -20,7 +20,7 @@ class Map {
       for (let x=0; x<3; x+=1) {
         for (let y=0; y<3; y+=1) {
           for (let z=0; z<3; z+=1) {
-            this.grid.push([(x-xCount/2) * spacing, (y-yCount/2) * spacing, (z-zCount/2) * spacing]);
+            this.grid.push({ pos: [(x-xCount/2) * spacing, (y-yCount/2) * spacing, (z-zCount/2) * spacing], type: (z+y+x) %3 === 0 ? 'planet': 'empty'});
           }
         }
       }
