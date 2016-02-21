@@ -1,15 +1,11 @@
-import {
-  createStore, combineReducers
-}
-from 'redux';
-import {
-  Component, Map
-}
-from './../../libs/';
+import { createStore, combineReducers } from 'redux';
+import { Component, Map } from './../../libs/';
 import _template from './index.html';
 import THREE from 'three';
 import map from '../../../dist/map.json';
 
+const THREEx = {};
+require('threex.domevents/threex.domevents');
 
 const ScreenStore = (state = 'SHOW_ALL', action) => {
   switch (action.type) {
@@ -37,15 +33,37 @@ class Screen extends Component {
   addCube(unit, x, y, z) {
     let mesh = this.getCube(unit);
     mesh.position.set(x, y, z);
+    // this.domEvents.on(mesh, 'click', () => {
+    //   console.log('click');
+    //   mesh.set({color: '#FF7373'});
+    // });
     this.group.add(mesh);
   }
 
+  onDocumentMouseDown(event) {
+    event.preventDefault();
+    this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
+    this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+    this.raycaster.setFromCamera( this.mouse, this.camera );
+    var intersects = this.raycaster.intersectObjects( this.group.children);
+
+    if ( intersects.length > 0 ) {
+      intersects[ 0 ].object.material.color.setHex( 0xff0000 );
+    }
+
+  }
+
   renderScene(el) {
-    let unit = 50;
+    let unit = 100;
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
     this.camera.position.z = 500;
     this.scene = new THREE.Scene();
     this.map = new Map(unit);
+    this.mouse = new THREE.Vector2();
+    this.raycaster = new THREE.Raycaster();
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setPixelRatio(window.devicePixelRatio);
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     this.group = new THREE.Group();
     this.scene.add(this.group);
@@ -57,16 +75,13 @@ class Screen extends Component {
     this.windowHalfX = window.innerWidth/2;
 
 
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
-
     el.appendChild(this.renderer.domElement);
     window.addEventListener('resize', () => {
       this.onWindowResize();
     }, false);
 
     document.addEventListener('mousemove', e => this.onDocumentMouseMove(e), false);
+    document.addEventListener('mousedown', e => this.onDocumentMouseDown(e), false);
     this.animate();
   }
 
@@ -100,7 +115,7 @@ class Screen extends Component {
       this.animate();
     });
 
-    this.group.rotation.y -= 0.005;
+    this.group.rotation.y -= 0.0005;
     this.renderer.render(this.scene, this.camera);
   }
 }

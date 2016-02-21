@@ -1,22 +1,12 @@
 <div>
-
   <GameScreen>
-    <script>
-      var ScreenComponent = require('./../screen');
-      this._component = this._component || new ScreenComponent.Screen({}, document.getElementsByTagName('gameScreen')[0]);
-    </script>
   </GameScreen>
-
   <div class="user-menu">
-    <div class="profile-card">
-      <span class="user-name">Esmoreit</span>
-    </div>
-    <ul class="list-unit">
-      <li>
-        <ul class="unit-desc">
-          <li></li>
-        </ul>
-      </li>
-    </ul>
   </div>
+  <script>
+    var ScreenComponent = require('./../screen');
+    var UserViewBar = require('./../userViewBar');
+    this.screenView = this.screenView || new ScreenComponent.Screen({}, document.getElementsByTagName('gameScreen')[0]);
+    this.userSidebar = this.userSidebar || new UserViewBar.UserViewBar({}, document.getElementsByClassName('user-menu')[0]);
+  </script>
 </div>
