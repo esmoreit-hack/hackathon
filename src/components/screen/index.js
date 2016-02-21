@@ -1,5 +1,11 @@
-import { createStore, combineReducers } from 'redux';
-import { Component, Map } from './../../libs/';
+import {
+  createStore, combineReducers
+}
+from 'redux';
+import {
+  Component, Map
+}
+from './../../libs/';
 import _template from './index.html';
 import THREE from 'three';
 import map from '../../../dist/map.json';
@@ -16,53 +22,83 @@ const ScreenStore = (state = 'SHOW_ALL', action) => {
 
 class Screen extends Component {
 
-  firstRender=true;
+  firstRender = true;
 
   constructor(data, el) {
     super(_template, createStore(ScreenStore), el);
     this.on('after:render', () => {
-      if(this.firstRender){
+      if (this.firstRender) {
         this.firstRender = false;
         this.renderScene(this.el);
       }
     });
   }
 
+  addCube(unit, x, y, z) {
+    let mesh = this.getCube(unit);
+    mesh.position.set(x, y, z);
+    this.group.add(mesh);
+  }
+
   renderScene(el) {
+    let unit = 50;
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-    this.camera.position.z = 400;
+    this.camera.position.z = 500;
     this.scene = new THREE.Scene();
-    this.mesh = this.getCube(200);
-    this.scene.add(this.mesh);
+    this.map = new Map(unit);
+
+    this.group = new THREE.Group();
+    this.scene.add(this.group);
+    this.map.getGrid().forEach((cube, i) => {
+      this.addCube(unit, cube[0], cube[1], cube[2]);
+    });
+
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+
     el.appendChild(this.renderer.domElement);
-    window.addEventListener('resize', () => {this.onWindowResize();}, false);
-    console.log(Map);
-    this.map = new Map();
+    window.addEventListener('resize', () => {
+      this.onWindowResize();
+    }, false);
+
+    document.addEventListener('mousemove', e => this.onDocumentMouseMove(e), false);
     this.animate();
   }
 
-  getCube(size){
+  getCube(size) {
     let geometry = new THREE.BoxGeometry(size, size, size);
-    let material = new THREE.MeshBasicMaterial({ wireframe: true });
+    let material = new THREE.MeshBasicMaterial({
+      wireframe: true
+    });
     return new THREE.Mesh(geometry, material);
-  };
-
-  onWindowResize(){
-		this.camera.aspect = window.innerWidth / window.innerHeight;
-		this.camera.updateProjectionMatrix();
-		this.renderer.setSize( window.innerWidth, window.innerHeight );
   }
 
-  animate(){
-		requestAnimationFrame( () => {
+  onDocumentMouseMove(event) {
+    let mouseX = (event.clientX - this.windowHalfX);
+    let mouseY = (event.clientY - this.windowHalfY);
+		this.camera.position.x += ( mouseX - this.camera.position.x ) * 0.05;
+		this.camera.position.y += ( - mouseY - this.camera.position.y ) * 0.05;
+    console.log(mouseY, mouseX);
+		this.camera.lookAt( this.scene.position );
+    this.renderer.render(this.scene, this.camera);
+  }
+
+  onWindowResize() {
+    this.windowHalfY = this.innerHeight/2;
+    this.windowHalfX = this.innerWidth/2;
+    this.camera.aspect = window.innerWidth / window.innerHeight;
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
+
+  animate() {
+    requestAnimationFrame(() => {
       this.animate();
     });
-		this.mesh.rotation.x += 0.005;
-		this.mesh.rotation.y += 0.01;
-		this.renderer.render( this.scene, this.camera );
+
+    this.group.rotation.y -= 0.005;
+    this.renderer.render(this.scene, this.camera);
   }
 }
 
