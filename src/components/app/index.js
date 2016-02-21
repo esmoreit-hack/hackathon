@@ -15,6 +15,8 @@ class App extends Component {
   constructor(data, el){
     super(_template, createStore(AppStore), el||document.body);
     this.store.dispatch({map: '', type: 'ADD_MAP'});
+    var snd = new Audio("ambient-wave.wav"); // buffers automatically when created
+    snd.play();
   }
 };
 
