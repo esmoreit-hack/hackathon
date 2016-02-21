@@ -11,8 +11,9 @@ const FigureSchema = new Schema({
 	speed : { type : Number }
 });
 
-const Figure = Mongoose.model('figure', FigureSchema);
+FigureSchema.plugin(require('mongoose-lifecycle'));
 
+const Figure = Mongoose.model('figure', FigureSchema);
 export {
 	Figure
 };

@@ -8,8 +8,9 @@ const ResourceSchema = new Schema({
 	color : { type : String }
 });
 
-const Resource = Mongoose.model('resource', ResourceSchema);
+ResourceSchema.plugin(require('mongoose-lifecycle'));
 
+const Resource = Mongoose.model('resource', ResourceSchema);
 export {
 	Resource
 };
