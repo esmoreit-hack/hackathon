@@ -83,7 +83,6 @@ class Screen extends Component {
     let mouseY = (event.clientY - this.windowHalfY);
 		this.camera.position.x += ( mouseX - this.camera.position.x ) * 0.05;
 		this.camera.position.y += ( - mouseY - this.camera.position.y ) * 0.05;
-    console.log(event.clientX);
 		this.camera.lookAt( this.scene.position );
     this.renderer.render(this.scene, this.camera);
   }
