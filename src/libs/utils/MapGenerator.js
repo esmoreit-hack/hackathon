@@ -1,5 +1,7 @@
 "use strict";
 const fs = require('fs');
+let spacesFilled = [];
+const res = [];
 
 class MapGenerator{
 
@@ -26,62 +28,82 @@ class MapGenerator{
   }
 
   validatePlanetConstellation(constellation, planet){
-    let _pp = planet;
-    for(let i = 0; i < constellation.length; i++){
-      let _p = constellation[i].position;
-      if((_p[0] === _pp[0]) && (_p[1] === _pp[1]) && (_p[2] === _pp[2]) ){
-        return false;
-      }
-      continue;
-    }
+
     return true;
   }
 
-  getRandomCubePosition(){
+  getRandomCubePosition(callback){
     var c = ()=> { return Math.round(Math.random()); };
-    let x = c() ? (-1*c()) : c();
+    let x = c() ? (-1*c())  : c();
     let y = c() ? (-1*c()) : c();
     let z = c() ? (-1*c()) : c();
-    return [x,y,z];
+
+    if(x === -0)
+      x = Math.abs(x);
+    if(y === -0)
+      y = Math.abs(y);
+    if(z === -0)
+      z = Math.abs(z);
+
+    if(callback)
+      callback([x,y,z]);
   }
 
-  getPlanet(constellation){
-    let pos = this.getRandomCubePosition();
-    let planet = { position: pos };
-    return this.validatePlanetConstellation( constellation, pos ) ? planet : this.getPlanet(constellation);
+  getPlanet(galaxy){
+    let planet = {};
+
+    this.getRandomCubePosition((vector3) => {
+
+      if(spacesFilled.length > 0) {
+        spacesFilled.forEach((Unit) => {
+          if (Unit[0] === vector3[0] && Unit[1] === vector3[1] && Unit[2] === vector3[2]) {
+            return this.getRandomCubePosition();
+          } else {
+            spacesFilled.push(vector3);
+            planet = { position: vector3 };
+          }
+        });
+      } else {
+          spacesFilled.push(vector3);
+          planet = { position: vector3 };
+      }
+    })
+
+    return this.validatePlanetConstellation( galaxy ) ? planet : this.getPlanet(galaxy);
   }
 
-  getConstellation(minPlanets, maxPlanets){
-    minPlanets = minPlanets || 5;
-    maxPlanets = (maxPlanets === false ) ? false : maxPlanets || 7;
-    let max = !maxPlanets ? minPlanets : Math.round(Math.random(minPlanets,maxPlanets)*10);
-    let res = [];
-    for(let i=0; i<max; i++){
-      res.push(this.getPlanet(res));
+  getGalaxy(minPlanets, maxPlanets){
+    maxPlanets = maxPlanets ;
+    let planets = [];
+
+    spacesFilled = [];
+    for(let i=0; i<maxPlanets; i++){
+      planets.push(this.getPlanet());
     }
-    return { planets: res };
+
+    return { planets: planets };
   }
 
   getGalaxie(cubeNumber, minPlanets, maxPlanets){
-    let res = [];
-    cubeNumber = cubeNumber || 27;
+    let galaxies = [];
+
     for(let i=0; i<cubeNumber; i++){
-      res.push(this.getConstellation( minPlanets, maxPlanets ));
+      galaxies.push(this.getGalaxy( minPlanets, maxPlanets ));
     }
-    return { galaxies: res };
+
+    return { galaxies: galaxies };
   }
 
-  getGame(cubeNumber, minPlanets, maxPlanets){
-    cubeNumber = cubeNumber || 27;
-    minPlanets = minPlanets || 7;
-    maxPlanets = false;
+  getGame(){
+    let cubeNumber = 27;
+    let minPlanets = 7;
+    let maxPlanets = 7;
 
-    let res = [];
     cubeNumber = cubeNumber || 27;
     for(let i=0; i<cubeNumber; i++){
       res.push(this.getGalaxie(cubeNumber, minPlanets, maxPlanets));
     }
-    return { universe: res };
+    return { universes: res };
   }
 
 };
