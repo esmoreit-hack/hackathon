@@ -27,11 +27,6 @@ class MapGenerator{
     });
   }
 
-  validatePlanetConstellation(constellation, planet){
-
-    return true;
-  }
-
   getRandomCubePosition(callback){
     var c = ()=> { return Math.round(Math.random()); };
     let x = c() ? (-1*c())  : c();
@@ -69,7 +64,7 @@ class MapGenerator{
       }
     })
 
-    return this.validatePlanetConstellation( galaxy ) ? planet : this.getPlanet(galaxy);
+    return planet;
   }
 
   getGalaxy(minPlanets, maxPlanets){
