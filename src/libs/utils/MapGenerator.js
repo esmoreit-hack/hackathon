@@ -27,7 +27,7 @@ class MapGenerator{
     });
   }
 
-  getGalaxy(moltiplier, numPlanets){
+  getGalaxy(multiplier, numPlanets){
     function cartesian() {
       var r = [], arg = arguments, max = arg.length-1;
       function helper(arr, i) {
@@ -43,10 +43,10 @@ class MapGenerator{
       helper([], 0);
       return r;
     }
-    const first = moltiplier;
-    const second = 1 + moltiplier;
-    const thrid = -1 - moltiplier;
-    let cubelv2 = cartesian([first, second, thrid], [thrid, first, second], [second, thrid, first]);
+    const first = multiplier;
+    const second = 1 + multiplier;
+    const thrid = -1 - multiplier;
+    let galaxy = cartesian([first, second, thrid], [thrid, first, second], [second, thrid, first]);
 
     Array.prototype.getRandom= function(num, cut){
 
@@ -58,17 +58,17 @@ class MapGenerator{
       return A.splice(0, num);
     };
 
-    let planets = cubelv2.getRandom(numPlanets);
+    let planets = galaxy.getRandom(numPlanets);
+    let number = JSON.stringify(parseInt(multiplier));
 
-
-    return { planets: planets };
+    return { galaxy, planets: planets };
   }
 
   getGalaxie(cubeNumber, numPlanets){
     let galaxies = [];
 
     for(let i=0; i<cubeNumber; i++){
-      galaxies.push([ i , this.getGalaxy(i, numPlanets)]);
+      galaxies.push([i, this.getGalaxy(i, numPlanets)]);
     }
 
     return { galaxies: galaxies};
