@@ -1,7 +1,6 @@
 import { createStore, combineReducers } from 'redux';
 import { Component } from './../../libs/';
 import _template from './index.html';
-import socket from 'socket.io-client';
 
 const UnitModel = ( state = {pos: [0,0,0], dir: [0,0,0], type: '', user_id: 0 }, action ) => {
   switch (action.type) {
@@ -77,7 +76,7 @@ class App extends Component {
         this.currentTime = 0;
         this.play();
     }, false);
-    snd.play(); 
+    snd.play();
   }
 };
 

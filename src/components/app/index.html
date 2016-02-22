@@ -1,43 +1,44 @@
 <script>
   var status = data.store.getState(),
       modalClass = 'user-not-logged '+(status.user.status === 'afk' ? '' : 'hidden')
-  console.log(status);
 </script>
-<div class="{modalClass}">
-  <div class="modal">
-    <div class="modal--content">
-      <h3>Cubic Chess</h3>
-      <blockquote>Our greatest glory is not in never falling, but in rising every time we fall. - <i><b>Confucio</b></i><blockquote>
-      <p>We approach to the Koding Hackathon with innovation as our value.<br/>
-      Our idea was start revolutionary something simple, and keep the simplicity as core value of it.</p>
+<div>
+  <div class="{modalClass}">
+    <div class="modal">
+      <div class="modal--content">
+        <h3>Cubic Chess</h3>
+        <blockquote>Our greatest glory is not in never falling, but in rising every time we fall. - <i><b>Confucio</b></i><blockquote>
+        <p>We approach to the Koding Hackathon with innovation as our value.<br/>
+        Our idea was start revolutionary something simple, and keep the simplicity as core value of it.</p>
 
-      <p>So we choose one of the oldest game, <b>Chess</b>, and we exploit his dimensions.<br/>
-      Unfortunately the capacities and the deadline didn't match the requirements of delivery something playable,
-      and this for now is just a concept.</p>
+        <p>So we choose one of the oldest game, <b>Chess</b>, and we exploit his dimensions.<br/>
+        Unfortunately the capacities and the deadline didn't match the requirements of delivery something playable,
+        and this for now is just a concept.</p>
 
-      <p>We crafted everything by hands, and we spend a lot of time on thinking the game logics (Unfortunately, un-experienceable in the current state).</p>
+        <p>We crafted everything by hands, and we spend a lot of time on thinking the game logics (Unfortunately, un-experienceable in the current state).</p>
 
-      <p>We're still proud of the result.<br/>
-      The codebase is fine crafted with the latest technology JavaScript libraries and in our opinion represent a good example in how to build next-generation App with JavaScript(ES6/ES7).</p>
+        <p>We're still proud of the result.<br/>
+        The codebase is fine crafted with the latest technology JavaScript libraries and in our opinion represent a good example in how to build next-generation App with JavaScript(ES6/ES7).</p>
 
-      <p>Since you can't enjoy playing,<br/>
-      we hope you can enjoy reading.</p>
-      <button class="js-game-start" onClick="{ data.store.dispatch({status: 'queue', type: 'SET_USER_STATUS'}) }">Start the game</button>
-      <p>
-        <a href="https://github.com/esmoreit-hack/hackathon/">Source Code</a> - Team: <a href="https://github.com/M3kH">Mauro Mandracchia</a>, <a href="https://github.com/massimiliano-scifo">Massimiliano Scifo</a>
-      </p>
+        <p>Since you can't enjoy playing,<br/>
+        we hope you can enjoy reading.</p>
+        <button class="js-game-start" onClick="{ data.store.dispatch({status: 'queue', type: 'SET_USER_STATUS'}) }">Start the game</button>
+        <p>
+          <a href="https://github.com/esmoreit-hack/hackathon/">Source Code</a> - Team: <a href="https://github.com/M3kH">Mauro Mandracchia</a>, <a href="https://github.com/massimiliano-scifo">Massimiliano Scifo</a>
+        </p>
+      </div>
     </div>
   </div>
 </div>
-<GameScreen>
-</GameScreen>
+<GameScreen></GameScreen>
 <div class="user-menu" if="status.user.status !== 'afk'"></div>
 <script>
   if(status.user.status !== 'afk'){
     var UserViewBar = require('./../userViewBar');
     this.userSidebar = new UserViewBar.UserViewBar(this.store, document.getElementsByClassName('user-menu')[0]);
+    if(this.screenView) this.screenView.renderScene(document.getElementsByTagName('gameScreen')[0]);
   }
 
   var ScreenComponent = require('./../screen');
-  this.screenView = new ScreenComponent.Screen(this.store, document.getElementsByTagName('gameScreen')[0]);
+  this.screenView = this.screenView || new ScreenComponent.Screen(this.store, document.getElementsByTagName('gameScreen')[0]);
 </script>
