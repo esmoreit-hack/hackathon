@@ -9,8 +9,19 @@ const Hapi = require('hapi');
 const DB = require('./database');
 const Routes = require('./routes');
 
+const MODE = process.env.NODE_ENV || 'dev';
 const server = new Hapi.Server();
-server.connection({ port: 3000 });
+
+server.connection({ port: MODE === 'dev' ? 3000 : 80 });
+const io = require('socket.io')(server.listener);
+io.on('connection', function (socket) {
+
+    socket.emit('Oh hii!');
+
+    socket.on('burp', function () {
+        socket.emit('Excuse you!');
+    });
+});
 
 server.register(require('inert'), (err) => {
 

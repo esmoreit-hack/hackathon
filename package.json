@@ -4,13 +4,16 @@
   "description": "Esmoreit-chess-stellar",
   "main": "index.js",
   "scripts": {
-    "start": "npm run deploy && npm server",
-    "server": "node_modules/.bin/pm2 stop ./src/server && node_modules/.bin/pm2 start ./src/server --watch",
-    "dev": "npm run server && npm run watch-js",
-    "build-map": "node src/libs/utils/MapGenerator.js --harmony_destructuring",
+    "start": "npm run deploy && npm server-dev",
+    "start-prod": "export NODE_ENV=production && npm run deploy && npm server",
+    "server": "node_modules/.bin/pm2 start -f ./src/server",
+    "server-dev": "node_modules/.bin/pm2 stop ./src/server && node_modules/.bin/pm2 start ./src/server --watch",
+    "dev": "npm run server-dev && npm run watch-js",
     "server-wp": "./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --port 8081 --config webpack.config.js --progress --colors",
     "watch-js": "./node_modules/.bin/webpack --config webpack.config.js --watch",
-    "deploy": "./node_modules/.bin/webpack -p --config webpack.config.js"
+    "build-assets": "./node_modules/.bin/webpack -p --config webpack.config.js",
+    "build-map": "node src/libs/utils/MapGenerator.js --harmony_destructuring",
+    "deploy": "npm run build-map && npm run build-assets"
   },
   "keywords": [
     "ES6",
@@ -53,9 +56,6 @@
     "babel-register": "^6.5.2",
     "babel-runtime": "^6.3.19",
     "boom": "^3.1.2",
-    "bootstrap": "github:twbs/bootstrap#v4.0.0-alpha.2",
-    "bootstrap-loader": "^1.0.8",
-    "bootstrap-sass": "^3.3.6",
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "google-closure-templates": "^20150410.0.0",
