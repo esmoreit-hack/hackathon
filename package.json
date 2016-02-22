@@ -4,8 +4,8 @@
   "description": "Esmoreit-chess-stellar",
   "main": "index.js",
   "scripts": {
-    "start": "npm run deploy && npm server-dev",
-    "start-prod": "export NODE_ENV=production && npm run deploy && npm server",
+    "start": "npm run deploy && npm run server-dev",
+    "start-prod": "export NODE_ENV=production && npm run deploy && npm run server",
     "server": "node_modules/.bin/pm2 start -f ./src/server",
     "server-dev": "node_modules/.bin/pm2 stop ./src/server && node_modules/.bin/pm2 start ./src/server --watch",
     "dev": "npm run server-dev && npm run watch-js",
