@@ -6,8 +6,9 @@
   "scripts": {
     "start": "npm run deploy && npm run server-dev",
     "start-prod": "export NODE_ENV=production && npm run deploy && npm run server",
-    "server": "node_modules/.bin/pm2 start -f ./src/server",
-    "server-dev": "node_modules/.bin/pm2 stop ./src/server && node_modules/.bin/pm2 start ./src/server --watch",
+    "server": "node_modules/.bin/pm2 start ./src/server > /dev/null 2>&1",
+    "server-stop": "node_modules/.bin/pm2 stop ./src/server > /dev/null 2>&1 &",
+    "server-dev": "npm run server-stop && node_modules/.bin/pm2 start ./src/server --watch",
     "dev": "npm run server-dev && npm run watch-js",
     "server-wp": "./node_modules/.bin/webpack-dev-server --host 0.0.0.0 --port 8081 --config webpack.config.js --progress --colors",
     "watch-js": "./node_modules/.bin/webpack --config webpack.config.js --watch",
