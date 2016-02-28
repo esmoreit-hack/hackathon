@@ -59,7 +59,6 @@ class Screen extends Component {
   }
 
   getSpaceship(unit, color){
-
     let material = new THREE.MeshPhongMaterial({
       color: Math.random() * 0xffffff ,
       emissive: Math.random() * 0xffffff ,
@@ -79,11 +78,10 @@ class Screen extends Component {
     if ( intersects.length > 0 ) {
       intersects[ 0 ].object.material.color.setHex( 0xff0000 );
     }
-
   }
 
-  renderScene(el) {
-    let unit = 100;
+  createMainSceneRequirements(unit){
+    unit = unit || 100;
     this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
     this.camera.position.z = 500;
     this.scene = new THREE.Scene();
@@ -93,20 +91,26 @@ class Screen extends Component {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+  }
 
+  createGroupAndAddToScene(unit){
+    unit = unit || 100;
     this.group = new THREE.Group();
     this.scene.add(this.group);
     this.map.getGrid().forEach((cube, i) => {
       this.addCube(unit, cube.pos[0], cube.pos[1], cube.pos[2], cube.type);
     });
+  }
+
+  renderScene(el) {
+    this.createMainSceneRequirements(this.unit);
+    this.createGroupAndAddToScene(this.unit);
     this.windowHalfY = window.innerHeight/2;
     this.windowHalfX = window.innerWidth/2;
-
     el.appendChild(this.renderer.domElement);
     window.addEventListener('resize', () => {
       this.onWindowResize();
     }, false);
-
     document.addEventListener('mousemove', e => this.onDocumentMouseMove(e), false);
     document.addEventListener('mousedown', e => this.onDocumentMouseDown(e), false);
     this.animate();
