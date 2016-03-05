@@ -50,7 +50,13 @@ class Screen extends Component {
     let material = new THREE.MeshBasicMaterial({
       wireframe: true
     });
-    return new THREE.Mesh(geometry, material);
+    let gameObject = new THREE.Mesh(geometry, material)
+    // Here we will add the position information
+    let info = {
+        data : 'test'
+    };
+    gameObject.userData = info;
+    return gameObject;
   }
 
   getSfere(unit){
@@ -68,17 +74,6 @@ class Screen extends Component {
     return new THREE.Mesh( new THREE.OctahedronGeometry( unit/4, 0 ), material );
   }
 
-  onDocumentMouseDown(event) {
-    event.preventDefault();
-    this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
-    this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
-    this.raycaster.setFromCamera( this.mouse, this.camera );
-    var intersects = this.raycaster.intersectObjects( this.group.children);
-
-    if ( intersects.length > 0 ) {
-      intersects[ 0 ].object.material.color.setHex( 0xff0000 );
-    }
-  }
 
   createMainSceneRequirements(unit){
     unit = unit || 100;
@@ -111,7 +106,7 @@ class Screen extends Component {
     window.addEventListener('resize', () => {
       this.onWindowResize();
     }, false);
-    document.addEventListener('mousemove', e => this.onDocumentMouseMove(e), false);
+    // document.addEventListener('mousemove', e => this.onDocumentMouseMove(e), false);
     document.addEventListener('mousedown', e => this.onDocumentMouseDown(e), false);
     this.animate();
   }
@@ -123,6 +118,19 @@ class Screen extends Component {
 		this.camera.position.y += ( - mouseY - this.camera.position.y ) * 0.05;
 		this.camera.lookAt( this.scene.position );
     this.renderer.render(this.scene, this.camera);
+  }
+
+  onDocumentMouseDown(event) {
+    event.preventDefault();
+    this.mouse.x = ( event.clientX / this.renderer.domElement.clientWidth ) * 2 - 1;
+    this.mouse.y = - ( event.clientY / this.renderer.domElement.clientHeight ) * 2 + 1;
+    this.raycaster.setFromCamera( this.mouse, this.camera );
+    var intersects = this.raycaster.intersectObjects( this.group.children);
+
+    if ( intersects.length > 0 ) {
+      intersects[ 0 ].object.material.color.setHex( 0xff0000 );
+      console.log(intersects[0]);
+    }
   }
 
   onWindowResize() {
@@ -138,7 +146,7 @@ class Screen extends Component {
       this.animate();
     });
 
-    this.group.rotation.y -= 0.002;
+    this.group.rotation.y -= 0.0002;
     this.renderer.render(this.scene, this.camera);
   }
 }

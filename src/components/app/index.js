@@ -76,7 +76,7 @@ class App extends Component {
         this.currentTime = 0;
         this.play();
     }, false);
-    snd.play();
+    // snd.play();
   }
 };
 
